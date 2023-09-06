@@ -1,0 +1,206 @@
+/* Write your global styles here, in PostCSS syntax */
+
+/* inter-thin - latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 200;
+  src: url('fonts/inter-v12-latin-200.woff2') format('woff2');
+}
+
+/* inter-light - latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300;
+  src: url('fonts/inter-v12-latin-300.woff2') format('woff2');
+}
+
+/* inter-regular - latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  src: url('fonts/inter-v12-latin-regular.woff2') format('woff2');
+}
+
+/* inter-medium - latin */
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    src: url('fonts/inter-v12-latin-500.woff2') format('woff2');
+}
+
+/* inter-semibold - latin */
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    src: url('fonts/inter-v12-latin-600.woff2') format('woff2');
+}
+
+/* inter-bold - latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  src: url('fonts/inter-v12-latin-700.woff2') format('woff2');
+}
+
+/* inter-black - latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 900;
+  src: url('fonts/inter-v12-latin-900.woff2') format('woff2');
+}
+
+/* DarkHornet */
+@font-face {
+    font-family: 'DarkHornet';
+    font-style: normal;
+    font-weight: 500;
+    src: url('fonts/DarkHornet-1GXB0.otf') format('opentype')
+}
+
+/* Hexco */
+@font-face {
+    font-family: 'Hexco';
+    font-style: normal;
+    font-weight: 500;
+    src: url('fonts/HEXCO.otf') format('opentype')
+}
+
+/* Igoe */
+@font-face {
+    font-family: 'Igoe';
+    font-style: normal;
+    font-weight: 500;
+    src: url('fonts/Igoe.otf') format('opentype')
+}
+
+/* Igoe */
+@font-face {
+    font-family: 'AlmaMono';
+    font-style: normal;
+    font-weight: 500;
+    src: url('fonts/AlmaMono-Heavy.otf') format('opentype')
+}
+
+/* Tailwind */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom */
+
+.viz-container {
+    position: relative;
+}
+
+.viz-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.recoil-huge-subtitle {
+    position: absolute;
+    top: 74%;
+    left: 30%;
+    right: 30%;
+    text-align: center;
+}
+
+.recoil-huge {
+    color: white;
+    font-family: 'Inter';
+    font-weight: 900;
+    font-size: 23cqw;
+    opacity: 1;
+  }
+
+.recoil-huge-r {
+    position: absolute;
+    top: 50%;
+    left: 4%;
+    transform: translateX(-4%);
+    transform: translateY(-50%);
+}
+
+.recoil-huge-e {
+    position: absolute;
+    top: 50%;
+    left: 21%;
+    transform: translateX(-21%);
+    transform: translateY(-50%);
+}
+
+.recoil-huge-c {
+    position: absolute;
+    top: 50%;
+    left: 36%;
+    transform: translateX(-36%);
+    transform: translateY(-50%);
+}
+
+.recoil-huge-o {
+    position: absolute;
+    top: 50%;
+    left: 55%;
+    transform: translateX(-55%);
+    transform: translateY(-50%);
+}
+
+.recoil-huge-i {
+    position: absolute;
+    top: 50%;
+    left: 74.5%;
+    transform: translateX(-74.5%);
+    transform: translateY(-50%);
+  }
+
+.recoil-huge-l {
+    position: absolute;
+    top: 50%;
+    left: 83%;
+    transform: translateX(-83%);
+    transform: translateY(-50%);
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.recoil-huge-peer-highlight {
+    position: absolute;
+    top: 4%;
+    left: 30%;
+    right: 30%;
+    text-align: center;
+    color: #3ff;
+    font-family: monospace;
+    font-weight: 600;
+}
+
+.recoil-huge-peer-highlight-in {
+    animation: fadeIn 1s;
+    animation-fill-mode: forwards;
+}
+
+.recoil-huge-peer-highlight-out {
+    animation: fadeOut 1s;
+    animation-fill-mode: forwards;
+}
