@@ -201,8 +201,8 @@ function init(el) {
     const bloomPass = new UnrealBloomPass(
         new THREE.Vector2(window.innerWidth, window.innerHeight),
         1.6,
-        0.2,
-        0.01
+        0.3,
+        0.02
     );
 
     composer = new EffectComposer( renderer );

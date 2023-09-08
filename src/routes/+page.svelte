@@ -4,7 +4,9 @@
 	import { createTextScramble } from '../lib/scramble.js';
 
     // data
-    import mastodonPeers from '../lib/recoil_peers.json';
+    // import mastodonPeers from '../lib/recoil_peers.json';
+    let mastodonPeersURL = "https://amok.recoil.org/api/v1/instance/peers";
+    let mastodonPeers;
 
     // Components
     import Service from '$lib/components/Service.svelte';
@@ -20,6 +22,13 @@
     let scrambleRecoilTitleI;
     let scrambleRecoilTitleL;
 
+    const getMastodonPeers = async () => {
+        var response = await fetch(mastodonPeersURL);
+        var result = await response.json();
+
+        return result;
+    }
+
     let randomPeerName;
     let randomPeerNameContainer;
 
@@ -29,7 +38,7 @@
         countdown--;
 
         if (countdown == 1) {
-            if (randomPeerNameContainer != null) {
+            if (randomPeerNameContainer) {
                 randomPeerNameContainer.classList.remove("recoil-huge-peer-highlight-in");
                 randomPeerNameContainer.classList.add("recoil-huge-peer-highlight-out");
             }
@@ -37,7 +46,7 @@
         else if (countdown <= 0) {
             pickNewPeer();
             randomPeerNameContainer.innerHTML = randomPeerName;
-            if (randomPeerNameContainer != null) {
+            if (randomPeerNameContainer) {
                 randomPeerNameContainer.classList.add("recoil-huge-peer-highlight-in");
                 randomPeerNameContainer.classList.remove("recoil-huge-peer-highlight-out");
             }
@@ -53,6 +62,19 @@
         globeViz.updateHighlightIndex(randomPeerIndex);
     }
 
+    async function getPeersAndStartAnimation()
+    {
+        console.log("Getting mastodon peers...");
+        await getMastodonPeers().then((response) => {
+            mastodonPeers = response;
+            console.log("... got " + mastodonPeers.length + " peers");
+            var interval = setInterval(animateDisplayedPeer, 2000);
+        }).catch((error) => {
+            // Your error is here!
+            console.log("AIEEE " + error);
+        });
+
+    }
 
     let sceneCreated = false;
     let scrambleCreated = false;
@@ -78,7 +100,8 @@
             createTextScramble(scrambleRecoilTitleI, ['I'], 30000, 'text-red-600');
             createTextScramble(scrambleRecoilTitleL, ['L'], 32000, 'text-red-600');
 
-            var interval = setInterval(animateDisplayedPeer, 2000);
+            getPeersAndStartAnimation();
+
             scrambleCreated = true;
         }
 	});
@@ -145,32 +168,32 @@
         <ul role="list" class="divide-y divide-gray-200">
             <Service serviceName="Mastodon" serviceLink="https://amok.recoil.org/" serviceLinkName="amok.recoil.org">
                 <svelte:fragment slot="icon">
-                    <img class="w-20" src="/img/services/mastodon-black-round-icon.png" alt="Mastodon Logo" />
+                    <img class="w-20" src="img/services/mastodon-black-round-icon.png" alt="Mastodon Logo" />
                 </svelte:fragment>
             </Service>
             <Service serviceName="Pixelfed" serviceLink="https://recoil.org/" serviceLinkName="coming soon">
                 <svelte:fragment slot="icon">
-                    <img class="w-20" src="/img/services/pixelfed-black-round-icon.png" alt="Pixelfed Logo" />
+                    <img class="w-20" src="img/services/pixelfed-black-round-icon.png" alt="Pixelfed Logo" />
                 </svelte:fragment>
             </Service>
             <Service serviceName="Peertube" serviceLink="https://crank.recoil.org/" serviceLinkName="crank.recoil.org">
                 <svelte:fragment slot="icon">
-                    <img class="w-20" src="/img/services/peertube-black-round-icon.png"  alt="Peertube Logo" />
+                    <img class="w-20" src="img/services/peertube-black-round-icon.png"  alt="Peertube Logo" />
                 </svelte:fragment>
             </Service>
             <Service serviceName="Matrix" serviceLink="https://amok.recoil.org/" serviceLinkName="[REDACTED]">
                 <svelte:fragment slot="icon">
-                    <img class="w-20" src="/img/services/matrix-black-round-icon.png" alt="Matrix Logo" />
+                    <img class="w-20" src="img/services/matrix-black-round-icon.png" alt="Matrix Logo" />
                 </svelte:fragment>
             </Service>
             <Service serviceName="Web Hosting" serviceLink="https://recoil.org/sites" serviceLinkName="recoil.org/sites">
                 <svelte:fragment slot="icon">
-                    <img class="w-20" src="/img/services/web-black-round-icon.png"  alt="Web Logo" />
+                    <img class="w-20" src="img/services/web-black-round-icon.png"  alt="Web Logo" />
                 </svelte:fragment>
             </Service>
             <Service serviceName="Email Hosting" serviceLink="https://recoil.org/" serviceLinkName="@recoil.org">
                 <svelte:fragment slot="icon">
-                    <img class="w-20" src="/img/services/email-black-round-icon.png" alt="Email Logo" />
+                    <img class="w-20" src="img/services/email-black-round-icon.png" alt="Email Logo" />
                 </svelte:fragment>
             </Service>                
         </ul>
