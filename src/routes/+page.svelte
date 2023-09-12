@@ -13,7 +13,7 @@
     import RecentActivityBlock from '$lib/components/RecentActivityBlock.svelte';
 
 	let threedEl;
-    let scrambleEl;
+    // let scrambleEl;
     let scrambleAnilName;
     let scrambleRecoilTitleR;
     let scrambleRecoilTitleE;
@@ -29,7 +29,9 @@
         return result;
     }
 
-    let randomPeerName;
+    // Used for state tracking of the threejs viz
+    let randomPeerName = "";
+    let randomGlobeParticleIndex = -1;
     let randomPeerNameContainer;
 
     // This is a rough and ready fade-in fade-out change animation
@@ -38,28 +40,30 @@
         countdown--;
 
         if (countdown == 1) {
+            globeViz.updateHighlightIndex(-1); // No highlight
             if (randomPeerNameContainer) {
                 randomPeerNameContainer.classList.remove("recoil-huge-peer-highlight-in");
                 randomPeerNameContainer.classList.add("recoil-huge-peer-highlight-out");
             }
         }
         else if (countdown <= 0) {
-            pickNewPeer();
+            updateRandomPeerVars();
+            globeViz.updateHighlightIndex(randomGlobeParticleIndex);
             randomPeerNameContainer.innerHTML = randomPeerName;
             if (randomPeerNameContainer) {
                 randomPeerNameContainer.classList.add("recoil-huge-peer-highlight-in");
                 randomPeerNameContainer.classList.remove("recoil-huge-peer-highlight-out");
             }
+
+            // 5 * 2000 ms delay between each peer being displayed
             countdown = 5;
         }
     }
 
-    function pickNewPeer() {
-        var randomPeerIndex = Math.floor(Math.random()*mastodonPeers.length);
-        randomPeerName = mastodonPeers[randomPeerIndex];
-
-        randomPeerIndex = randomPeerIndex % globeViz.getParticleCount(); // We don't have enough particles for all of the data
-        globeViz.updateHighlightIndex(randomPeerIndex);
+    function updateRandomPeerVars() {
+        var rndMastodonPeerIndex = Math.floor(Math.random()*mastodonPeers.length);
+        randomPeerName = mastodonPeers[rndMastodonPeerIndex];
+        randomGlobeParticleIndex = rndMastodonPeerIndex % globeViz.getParticleCount(); // We don't have enough particles for all of the data
     }
 
     async function getPeersAndStartAnimation()
@@ -90,8 +94,8 @@
         if (!scrambleCreated)
         {
             let phrases = ['Mastodon', 'Peertube', 'Postfix', 'Web Hosting', 'Pixelfed', 'Matrix']
-            createTextScramble(scrambleEl, phrases, 2000, 'text-red-600');
-            createTextScramble(scrambleAnilName, ['Anil Madhavapeddy'], 2000, 'text-red-600');
+            // createTextScramble(scrambleEl, phrases, 2000, 'text-red-600');
+            createTextScramble(scrambleAnilName, ['Anil Madhavapeddy'], 10000, 'text-red-600');
 
             createTextScramble(scrambleRecoilTitleR, ['R'], 30000, 'text-red-600');
             createTextScramble(scrambleRecoilTitleE, ['E'], 32000, 'text-red-600');
@@ -121,26 +125,9 @@
         <div class="recoil-huge recoil-huge-i" bind:this={scrambleRecoilTitleI}>I</div>
         <div class="recoil-huge recoil-huge-l" bind:this={scrambleRecoilTitleL}>L</div>
         <div style="outline: none" class="recoil-huge-peer-highlight recoil-huge-peer-highlight-out" bind:this={randomPeerNameContainer}>someserver.dev</div>
-        <div class="recoil-huge-subtitle text-4xl font-inter font-black text-white" bind:this={scrambleEl} />
+        <!-- <div class="recoil-huge-subtitle text-4xl font-inter font-black text-white" bind:this={scrambleEl} /> -->
     </div>
 </section>
-
-<!-- <section class="mx-auto max-w-1xl xl:max-w-2xl p-4 sm:p-6 xl:px-0">
-    <div class="flex h-screen flex-col justify-between">
-        <main class="mb-auto">
-            <div class="divide-y divide-gray-200">
-                <div class="space-y-2 pb-8 pt-6 md:space-y-5">
-                    <h1 class="text-3xl font-inter font-thin leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">Latest</h1>
-                    <h1 class="text-3xl font-inter font-light leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">Latest</h1>
-                    <h1 class="text-3xl font-inter leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">Latest</h1>
-                    <h1 class="text-3xl font-inter font-bold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">Latest</h1>
-                    <h1 class="text-3xl font-inter font-black leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">Latest</h1>
-                    <p class="text-lg leading-7 text-gray-500 dark:text-gray-400">A small piece of the internet we call home</p>
-                </div>
-            </div>
-        </main>
-    </div>
-</section> -->
 
 <section class="mx-auto max-w-1xl xl:max-w-2xl p-4 sm:p-6 xl:px-0">
 
@@ -154,7 +141,7 @@
         </p>
 
         <p class="mx-4 py-4 font-inter">
-            From humble beginnings, custom building PC tower cases to "borrow" hosting from friends who
+            From humble beginnings with hand built PC tower cases and stashing them in the corner of an ISP our friend worked at, iends who
             worked at ISPs, to the more modern solution of virtualisation, it's provided an important
             environment for learning and experimentation as well as ownership.
         </p>
@@ -171,7 +158,7 @@
                     <img class="w-20" src="img/services/mastodon-black-round-icon.png" alt="Mastodon Logo" />
                 </svelte:fragment>
             </Service>
-            <Service serviceName="Pixelfed" serviceLink="https://recoil.org/" serviceLinkName="coming soon">
+            <Service serviceName="Pixelfed" serviceLink="https://recoil.org/" serviceLinkName="[COMING SOON]">
                 <svelte:fragment slot="icon">
                     <img class="w-20" src="img/services/pixelfed-black-round-icon.png" alt="Pixelfed Logo" />
                 </svelte:fragment>
@@ -181,14 +168,9 @@
                     <img class="w-20" src="img/services/peertube-black-round-icon.png"  alt="Peertube Logo" />
                 </svelte:fragment>
             </Service>
-            <Service serviceName="Matrix" serviceLink="https://amok.recoil.org/" serviceLinkName="[REDACTED]">
+            <Service serviceName="Matrix" serviceLink="https://recoil.org/" serviceLinkName="[REDACTED]">
                 <svelte:fragment slot="icon">
                     <img class="w-20" src="img/services/matrix-black-round-icon.png" alt="Matrix Logo" />
-                </svelte:fragment>
-            </Service>
-            <Service serviceName="Web Hosting" serviceLink="https://recoil.org/sites" serviceLinkName="recoil.org/sites">
-                <svelte:fragment slot="icon">
-                    <img class="w-20" src="img/services/web-black-round-icon.png"  alt="Web Logo" />
                 </svelte:fragment>
             </Service>
             <Service serviceName="Email Hosting" serviceLink="https://recoil.org/" serviceLinkName="@recoil.org">
@@ -199,45 +181,47 @@
         </ul>
     </div>
 
-    <div class="w-full">
+        <div class="w-full pb-6">
+        <div class="flex items-center justify-between">
+            <h3 class="px-4 py-6 text-2xl font-inter font-light leading-none text-gray-900">Recent Mastodon posts</h3>
+        </div>
+        <RecentActivityBlock />
+    </div>
+
+    <div class="w-full pb-6">
         <div class="flex items-center justify-between">
             <h3 class="px-4 py-6 text-2xl font-inter font-light leading-none text-gray-900">Admin</h3>
         </div>
 
-        <a href="/" class="flex flex-col items-start  bg-white rounded-lg md:flex-row hover:bg-gray-100 p-4">
-            <img class="object-cover w-full rounded-t-lg h-64 md:h-auto md:w-20 md:rounded-full" src="img/avsm-12.jpg" alt="Anil Madhavapeddy" />
-            <div class="flex flex-col content-start p-4 leading-normal border md:border-none">
-                <h5 class="mb-2 text-lg font-inter font-medium tracking-tight text-gray-900" bind:this={scrambleAnilName}>Anil Madhavapeddy</h5>
-                
-                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                    Anil can be found at <a href="https://anil.recoil.org/">anil.recoil.org</a> and posts updated to <a href="https://amok.recoil.org/@avsm">@avsm</a> on the recoil Mastodon instance.
-                </p>
-                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                </p>
+        <div class="flex flex-col md:flex-row">
+            <div class="w-full md:w-1/2 m-2 bg-white border border-gray-200 rounded-lg shadow">
+                <a href="https://anil.recoil.org/">
+                    <img class="object-cover w-full rounded-t-lg h-64 md:h-auto" src="img/avsm-12.jpg" alt="Anil Madhavapeddy" />
+                </a>
+                <div class="p-2">
+                    <a href="https://anil.recoil.org/">
+                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900" bind:this={scrambleAnilName}>Anil Madhavapeddy</h5>
+                    </a>
+                    
+                    <p class="mb-3 font-normal text-gray-700">
+                        Anil can be found at <a href="https://anil.recoil.org/">anil.recoil.org</a> and posts updated to <a class="text-red-800" href="https://amok.recoil.org/@avsm">@avsm</a> on the recoil Mastodon instance.
+                    </p>
+                </div>
             </div>
-        </a>
-
-        <a href="/" class="flex flex-col items-start  bg-white rounded-lg md:flex-row hover:bg-gray-100 p-4">
-            <img class="object-cover w-full rounded-t-lg h-64 md:h-auto md:w-20 md:rounded-full" src="img/nick-14.jpg" alt="Nick Ludlam" />
-            <div class="flex flex-col content-start p-4 leading-normal border md:border-none">
-                <h5 class="mb-2 text-lg font-inter font-medium tracking-tight text-gray-900">Nick Ludlam</h5>
-                
-                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                    Nick can be found at <a href="https://nick.recoil.org/">nick.recoil.org</a> and posts updated to <a href="https://amok.recoil.org/@nick">@nick</a> on the recoil Mastodon instance.
-                </p>
-                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                </p>
+            <div class="w-full md:w-1/2 m-2 bg-white border border-gray-200 rounded-lg shadow">
+                <a href="https://nick.recoil.org/">
+                    <img class="object-cover w-full rounded-t-lg h-64 md:h-auto" src="img/nick-14.jpg" alt="" />
+                </a>
+                <div class="p-2">
+                    <a href="https://nick.recoil.org/">
+                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">Nick Ludlam</h5>
+                    </a>
+                    <p class="mb-3 font-normal text-gray-700">
+                        Nick can be found at <a href="https://nick.recoil.org/">nick.recoil.org</a> and posts updated to <a href="https://amok.recoil.org/@nick">@nick</a> on the recoil Mastodon instance.
+                    </p>
+                </div>
             </div>
-        </a>
-    </div>
-
-    <div class="w-full">
-        <div class="flex items-center justify-between">
-            <h3 class="px-4 py-6 text-2xl font-inter font-light leading-none text-gray-900">Recent Activity</h3>
         </div>
-        <RecentActivityBlock />
     </div>
 
 

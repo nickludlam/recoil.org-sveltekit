@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
 // import Stats from 'three/addons/libs/stats.module.js';
-import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
+// import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
 
 // import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
@@ -46,40 +46,40 @@ const effectController = {
 // Update immediately
 effectController.minDistanceSqr = effectController.minDistance * effectController.minDistance;
 
-function initGUI() {
+// function initGUI() {
 
-    const gui = new GUI();
+//     const gui = new GUI();
 
-    gui.add( effectController, 'showDots' ).onChange( function ( value ) {
+//     gui.add( effectController, 'showDots' ).onChange( function ( value ) {
 
-        pointCloud.visible = value;
+//         pointCloud.visible = value;
 
-    } );
-    gui.add( effectController, 'showLines' ).onChange( function ( value ) {
+//     } );
+//     gui.add( effectController, 'showLines' ).onChange( function ( value ) {
 
-        linesMesh.visible = value;
+//         linesMesh.visible = value;
 
-    } );
-    gui.add( effectController, 'minDistance', 10, 300 ).onChange(function(value)
-    {
-        effectController.minDistanceSqr = value * value;
-    });
-    gui.add( effectController, 'limitConnections' );
-    gui.add( effectController, 'maxConnections', 0, 30, 1 );
-    gui.add( effectController, 'particleCount', 0, maxParticleCount, 1 ).onChange( function ( value ) {
+//     } );
+//     gui.add( effectController, 'minDistance', 10, 300 ).onChange(function(value)
+//     {
+//         effectController.minDistanceSqr = value * value;
+//     });
+//     gui.add( effectController, 'limitConnections' );
+//     gui.add( effectController, 'maxConnections', 0, 30, 1 );
+//     gui.add( effectController, 'particleCount', 0, maxParticleCount, 1 ).onChange( function ( value ) {
 
-        particleCount = value;
-        particles.setDrawRange( 0, particleCount );
+//         particleCount = value;
+//         particles.setDrawRange( 0, particleCount );
 
-    } );
+//     } );
 
-    gui.add(effectController, 'pauseMovement').onChange( function ( value ) {
+//     gui.add(effectController, 'pauseMovement').onChange( function ( value ) {
 
-        particleMotionEnabled = !value;
+//         particleMotionEnabled = !value;
 
-    });
+//     });
 
-}
+// }
 
 function init(el) {
 
@@ -283,9 +283,9 @@ function animate() {
         // if we need to highlight a node
         if (highlightIndex >= 0 && highlightIndex == i)
         {
-            particleColors[i * 3] = 0.1;
+            particleColors[i * 3] = 1;
             particleColors[i * 3 + 1] = 1;
-            particleColors[i * 3 + 2] = 1;
+            particleColors[i * 3 + 2] = 0;
         }
 
         if ( effectController.limitConnections && particleConnectionData.numConnections >= effectController.maxConnections )
@@ -362,7 +362,6 @@ function setHighlightIndex(number) {
 
 export const globeViz = {
     createScene(el) {
-        console.log("Creating ThreeJS viz scene");
         init(el);
         animate();    
     },

@@ -23,8 +23,7 @@ const config = {
         fallback: undefined, // or  fallback: '200.html' // may differ from host to host, see https://kit.svelte.dev/docs/single-page-apps
         precompress: false,
         strict: true
-      })
-
+    }),
   },
 
   preprocess: [vitePreprocess({})],

@@ -1,38 +1,22 @@
-# create-svelte
+# The recoil.org main website
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+The main project to build the website on https://recoil.org/
 
-## Creating a project
+# Development
 
-If you're seeing this, you've probably already done this step. Congrats!
+This uses SvelteKit. To run the stack in development mode, run:
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+`docker-compose up`
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+This will give you a local server available at [localhost:5173](http://localhost:5173), and has provision for HMR.
 
-## Developing
+# Deployment
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+To build the static site and copy the contents into the `build/` folder, run:
 
-```bash
-npm run dev
+`docker-compose run web npm run build`
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+and to test the files, run:
 
-## Building
+`python3 -m http.server -d build/ 8080`
 
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.

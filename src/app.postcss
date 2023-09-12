@@ -5,7 +5,7 @@
   font-family: 'Inter';
   font-style: normal;
   font-weight: 200;
-  src: url('fonts/inter-v12-latin-200.woff2') format('woff2');
+  src: url('/fonts/inter-v12-latin-200.woff2') format('woff2');
 }
 
 /* inter-light - latin */
@@ -13,7 +13,7 @@
   font-family: 'Inter';
   font-style: normal;
   font-weight: 300;
-  src: url('fonts/inter-v12-latin-300.woff2') format('woff2');
+  src: url('/fonts/inter-v12-latin-300.woff2') format('woff2');
 }
 
 /* inter-regular - latin */
@@ -21,7 +21,7 @@
   font-family: 'Inter';
   font-style: normal;
   font-weight: 400;
-  src: url('fonts/inter-v12-latin-regular.woff2') format('woff2');
+  src: url('/fonts/inter-v12-latin-regular.woff2') format('woff2');
 }
 
 /* inter-medium - latin */
@@ -29,7 +29,7 @@
     font-family: 'Inter';
     font-style: normal;
     font-weight: 500;
-    src: url('fonts/inter-v12-latin-500.woff2') format('woff2');
+    src: url('/fonts/inter-v12-latin-500.woff2') format('woff2');
 }
 
 /* inter-semibold - latin */
@@ -37,7 +37,7 @@
     font-family: 'Inter';
     font-style: normal;
     font-weight: 500;
-    src: url('fonts/inter-v12-latin-600.woff2') format('woff2');
+    src: url('/fonts/inter-v12-latin-600.woff2') format('woff2');
 }
 
 /* inter-bold - latin */
@@ -45,7 +45,7 @@
   font-family: 'Inter';
   font-style: normal;
   font-weight: 700;
-  src: url('fonts/inter-v12-latin-700.woff2') format('woff2');
+  src: url('/fonts/inter-v12-latin-700.woff2') format('woff2');
 }
 
 /* inter-black - latin */
@@ -53,39 +53,7 @@
   font-family: 'Inter';
   font-style: normal;
   font-weight: 900;
-  src: url('fonts/inter-v12-latin-900.woff2') format('woff2');
-}
-
-/* DarkHornet */
-@font-face {
-    font-family: 'DarkHornet';
-    font-style: normal;
-    font-weight: 500;
-    src: url('fonts/DarkHornet-1GXB0.otf') format('opentype')
-}
-
-/* Hexco */
-@font-face {
-    font-family: 'Hexco';
-    font-style: normal;
-    font-weight: 500;
-    src: url('fonts/HEXCO.otf') format('opentype')
-}
-
-/* Igoe */
-@font-face {
-    font-family: 'Igoe';
-    font-style: normal;
-    font-weight: 500;
-    src: url('fonts/Igoe.otf') format('opentype')
-}
-
-/* Igoe */
-@font-face {
-    font-family: 'AlmaMono';
-    font-style: normal;
-    font-weight: 500;
-    src: url('fonts/AlmaMono-Heavy.otf') format('opentype')
+  src: url('/fonts/inter-v12-latin-900.woff2') format('woff2');
 }
 
 /* Tailwind */
@@ -94,7 +62,18 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  a {
+    @apply text-red-700;
+  }
+}
+
 /* Custom */
+
+body {
+ /* Seems to be necessary for Safari, else we get a horizontal scroll bar */
+  overflow-x: hidden;
+}
 
 .viz-container {
     position: relative;
@@ -104,7 +83,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 90%;
   height: 100%;
   pointer-events: none;
   z-index: -1;
@@ -123,8 +102,8 @@
     font-family: 'Inter';
     font-weight: 900;
     font-size: 23cqw;
-    opacity: 1;
-  }
+    opacity: 0;
+}
 
 .recoil-huge-r {
     position: absolute;
@@ -132,7 +111,10 @@
     left: 4%;
     transform: translateX(-4%);
     transform: translateY(-50%);
-}
+
+    animation: fadeIn 6s ease-in 2s;
+    animation-fill-mode: forwards;
+  }
 
 .recoil-huge-e {
     position: absolute;
@@ -140,6 +122,9 @@
     left: 21%;
     transform: translateX(-21%);
     transform: translateY(-50%);
+
+    animation: fadeIn 6s ease-in 3s;
+    animation-fill-mode: forwards;
 }
 
 .recoil-huge-c {
@@ -148,6 +133,9 @@
     left: 36%;
     transform: translateX(-36%);
     transform: translateY(-50%);
+
+    animation: fadeIn 6s ease-in 4s;
+    animation-fill-mode: forwards;
 }
 
 .recoil-huge-o {
@@ -156,6 +144,9 @@
     left: 55%;
     transform: translateX(-55%);
     transform: translateY(-50%);
+
+    animation: fadeIn 6s ease-in 5s;
+    animation-fill-mode: forwards;
 }
 
 .recoil-huge-i {
@@ -164,7 +155,10 @@
     left: 74.5%;
     transform: translateX(-74.5%);
     transform: translateY(-50%);
-  }
+
+    animation: fadeIn 6s ease-in 6s;
+    animation-fill-mode: forwards;
+}
 
 .recoil-huge-l {
     position: absolute;
@@ -172,6 +166,9 @@
     left: 83%;
     transform: translateX(-83%);
     transform: translateY(-50%);
+
+    animation: fadeIn 6s ease-in 7s;
+    animation-fill-mode: forwards;
 }
 
 @keyframes fadeIn {
@@ -190,9 +187,10 @@
     left: 30%;
     right: 30%;
     text-align: center;
-    color: #3ff;
-    font-family: monospace;
+    color: #ff0;
+    font-family: 'Inter';
     font-weight: 600;
+    text-transform: uppercase;
 }
 
 .recoil-huge-peer-highlight-in {
